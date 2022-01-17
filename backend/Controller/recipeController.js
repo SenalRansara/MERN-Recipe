@@ -38,3 +38,66 @@ try {
     console.log("error", err)
 }
 });
+
+//router for retrieve data for cretaed recipes
+router.get("/getRecipe",async (req,res) => {
+
+    try{
+        const response = await Recipe.find();
+        return res.status(200).send({
+            status:"Success",
+            data: response
+        });
+    }catch(error){
+        console.log("Something went wrong while DB connection");
+        return { ok: false};
+    }
+});
+
+//router for update recipe details
+router.put("/updateRecipe/:recId",async (req,res) =>{
+    const recId = req.params.recId;
+
+    const{
+        recName,
+        recIng,
+        recDes
+    } = req.body;
+
+    if(recId){
+        const response = await Recipe.findOneAndUpdate({recId: recId }).then(() =>{
+            return res.status(200).send({
+                status:"Recipe Successfully Updated!!"
+            });
+        }).catch((err) =>{
+            return res.status(500).send({
+                status:"Internal server Error"
+            });
+        })
+    }
+    return res.status(400).send({
+        status:"Invalid Request"
+    })
+})
+
+//router for delete a recipe
+router.post("/removeRecipe",async (req,res) =>{
+    const recpId = req.body.recId;
+    if(employeeId){
+        const response = await Recipe.findByIdAndDelete({recId = recpId}).then(() =>{
+            return res.status(200).send({
+                status: "Delete Succesfull"
+            });
+        }).catch((err) =>{
+            return res.status(500).send({
+                status:"Internal server Error"
+            });
+        })
+    }
+    return res.status(400).send({
+        status:"Invalid Request"
+    })
+});
+    
+
+
