@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Recipe = require("../model/recipeModel")
 //const {v4:} // have to add auto increment id
 
+//create router for add new recipe
 router.post("/addRecipe",async (req,res)=>{
     //const recId = //add auto increment id
     const recName = req.body.recName;
