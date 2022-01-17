@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require ("dotenv").config();
 
 const app = express();
 
 const PORT = 8000;
-const DB_URL = 'mongodb+srv://senal:senal123@recipe.cbqdg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const URL = process.env.MONGODB_URL;
 
-mongoose.connect(DB_URL).then(()=> {
+
+mongoose.connect(URL).then(()=> {
     console.log('DB Connected Successfully');
 })
 .catch((err) => console.log('DB Connection Error',err));
