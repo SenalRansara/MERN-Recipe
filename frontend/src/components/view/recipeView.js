@@ -40,20 +40,20 @@ function onDelete() {
     /* side navigtaion bar components*/
     <div className="container" id="height">
         <div>
-        <div class="area"></div>
+        <div className="area"></div>
         
         </div>
 
 
         {/* implementing the meterial table for display data */}
 
-        <div class="BillPaymentTable">
+        <div className="BillPaymentTable">
         <MaterialTable style={{background:"#E3ECFF"}}
         title="Recipe"
         columns={[
-            { title: "Recipe Name", field: "recipeName", type: "string" },
-            { title: "Ingredients", field: "ingredients", type: "string" },
-            { title: "Description", field: "description", type: "string" }
+            { title: "Recipe Name", field: "recName", type: "string" },
+            { title: "Ingredients", field: "recIng", type: "string" },
+            { title: "Description", field: "recDes", type: "string" }
 
         ]}
         data={recipe}
@@ -65,7 +65,7 @@ function onDelete() {
         actions={[
             {
             icon: () => (
-                <button class="btn btn-sm btn-warning">Edit</button>
+                <button className="btn btn-sm btn-warning">Edit</button>
             ),
             onClick: (event, rowData) => {
                 setCurrentBillUpdate(rowData);
@@ -73,7 +73,7 @@ function onDelete() {
             },
             },
             {
-            icon: () => <button class="btn btn-sm btn-danger">Delete</button>,
+            icon: () => <button className="btn btn-sm btn-danger">Delete</button>,
             onClick: (event, rowData) => {
                 setCurrentBillDelete(rowData._id);
                 setModalBillDelete(true);
@@ -96,12 +96,12 @@ function onDelete() {
     <Modal show={modalBillDelete}>
         <Modal.Body>
         <p>Are you want to delete this item ?</p>
-        <button type="button" class="btn btn-success mr-3" onClick={onDelete}>
+        <button type="button" className="btn btn-success mr-3" onClick={onDelete}>
             Delete Item
         </button>
         <button
             type="button"
-            class="btn btn-danger"
+            className="btn btn-danger"
             onClick={() => setModalBillDelete(false)}
         >
             Cancel
@@ -109,7 +109,7 @@ function onDelete() {
         </Modal.Body>
     </Modal>
     </div>
-    <button class="btn btn-success"
+    <button className="btn btn-success"
     style={{ marginBottom: "20px" }}>
         <a
             href="#"

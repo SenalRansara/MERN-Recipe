@@ -21,7 +21,7 @@ export const getAllRecipe= async () => {
     console.log("awaaa",response);
     return {
         ok: true,
-        data: response.data
+        data: response.data.data
     };
     } catch (error) {
     return {
