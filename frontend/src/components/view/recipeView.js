@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { Modal } from "react-bootstrap";
 
-import { createRecipe,getAllRecipe,updateRecipe,deleteRecipe } from "../service/recipeService";
+import { getAllRecipe,deleteRecipe } from "../service/recipeService";
+
+import AddRecipe from "../modals/addRecipeModal";
+import UpdateRecipe from "../modals/updateRecipeModal";
 
 
 export default function RecipeView() {
@@ -10,12 +13,9 @@ export default function RecipeView() {
 
 const [recipe, setRecipe] = useState([]);
 
-const [modalBillUpdate, setModalBillUpdate] = useState(false);
-const [currentBillUpdate, setCurrentBillUpdate] = useState();
-
-const [modalBillDelete, setModalBillDelete] = useState(false);
-const [currentBillDelete, setCurrentBillDelete] = useState();
-
+const [addRecipeModal, setRecipeModal] = useState(false);
+const [updateRecipeModal, setUpdateRecipeModal] = useState(false);
+const [updateData, setUpdateData] = useState();
 
 
   //creting a method for retrieve data
@@ -31,9 +31,27 @@ useEffect(() => {
 }, []);
 
   //Delete method implementation
-function onDelete() {
-    
+function onDelete(data) {
+    const recId = data.recId;
+    let text = "Are you sure want to delete the Recipe?";
+        if (window.confirm(text) == true) {
+            deleteRecipe(recId).then((res)=>{
+                if(res.ok){
+                    alert("Recipe Deleted Successfully");
+                    window.location.reload();
+                }else{
+                    alert("Something Went Wrong");
+                }
+            });
+        } else {
+            window.location.reload();
 }
+};
+
+const addRecipe = () =>{
+    setRecipeModal(true);
+}
+
 
   //adding components to the page body
     return (
@@ -48,6 +66,15 @@ function onDelete() {
         {/* implementing the meterial table for display data */}
 
         <div className="BillPaymentTable">
+        <button className="btn btn-success" style={{ marginBottom: "20px" }} onClick={() => addRecipe()}>
+        <a
+            href="#"
+            style={{ textDecoration: "none", color: "white" }}
+        >
+            {" "}
+            Add Bill details
+        </a>
+        </button>
         <MaterialTable style={{background:"#E3ECFF"}}
         title="Recipe"
         columns={[
@@ -63,20 +90,24 @@ function onDelete() {
             exportButton: true,
         }}
         actions={[
+            // {onClick: (event, rowData) => {
+            //     console.log("hgjsdhv");
+
+            // }
+            // },
             {
             icon: () => (
                 <button className="btn btn-sm btn-warning">Edit</button>
             ),
             onClick: (event, rowData) => {
-                setCurrentBillUpdate(rowData);
-                setModalBillUpdate(true);
+                setUpdateRecipeModal(true);
+                setUpdateData(rowData);
             },
             },
             {
             icon: () => <button className="btn btn-sm btn-danger">Delete</button>,
             onClick: (event, rowData) => {
-                setCurrentBillDelete(rowData._id);
-                setModalBillDelete(true);
+                onDelete(rowData);
             },
             },
         ]}
@@ -84,43 +115,33 @@ function onDelete() {
         />
     </div>
     <div>
-    {/* <Modal show={modalBillUpdate}>
+    <Modal show={addRecipeModal} onHide={()=>{
+        setRecipeModal(false)
+    }}>
         <Modal.Body>
-        <EditBillForm
-            data={currentBillUpdate}
-            data01={() => setModalBillUpdate(false)}
+        <AddRecipe
+            onHide={()=>{
+                setRecipeModal(false)
+            }}
         />
         </Modal.Body>
-    </Modal> */}
+    </Modal> 
 
-    <Modal show={modalBillDelete}>
+    <Modal show={updateRecipeModal} onHide={()=>{
+        setUpdateRecipeModal(false)
+    }}>
         <Modal.Body>
-        <p>Are you want to delete this item ?</p>
-        <button type="button" className="btn btn-success mr-3" onClick={onDelete}>
-            Delete Item
-        </button>
-        <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => setModalBillDelete(false)}
-        >
-            Cancel
-        </button>
+        <UpdateRecipe
+            data={updateData}
+            onHide={()=>{
+                setUpdateRecipeModal(false)
+            }}
+        />
         </Modal.Body>
-    </Modal>
+    </Modal> 
+
     </div>
-    <button className="btn btn-success"
-    style={{ marginBottom: "20px" }}>
-        <a
-            href="#"
-            style={{ textDecoration: "none", color: "white" }}
-        >
-            {" "}
-            Add Bill details
-        </a>
-        </button>
-
-
+    
     </div>
     
     );
