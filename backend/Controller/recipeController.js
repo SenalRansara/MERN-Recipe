@@ -1,22 +1,24 @@
 const router = require("express").Router();
 const Recipe = require("../model/recipeModel")
-//const {v4:} // have to add auto increment id
+const { v4: uuidv4 } = require("uuid");
 
 //create router for add new recipe
-router.post("/addRecipe",async (req,res)=>{
-    //const recId = //add auto increment id
+router.post("/recipe/save",async (req,res)=>{
+    console.log("ddd",req.body);
+    const recId = uuidv4();
     const recName = req.body.recName;
     const recIng = req.body.recIng;
     const recDes = req.body.recDes;
 
+
 const newRecipe = new Recipe({
-    //recId,
+    recId,
     recName,
     recIng,
     recDes
 })
 try {
-    Recipe.find({ nic: newRecipe.nic }, async (err, doc) => {
+    Recipe.find({ recId: newRecipe.recId }, async (err, doc) => {
         if (Object.keys(doc).length == 0) {
 
             try {
@@ -30,7 +32,6 @@ try {
             }
         }
         else {
-            //console.log("nic found")
             return res.status(400).send({ status: "User already exist!" });
         }
     });
@@ -40,7 +41,7 @@ try {
 });
 
 //router for retrieve data for cretaed recipes
-router.get("/getRecipe",async (req,res) => {
+router.get("/recipe/get",async (req,res) => {
 
     try{
         const response = await Recipe.find();
@@ -55,7 +56,7 @@ router.get("/getRecipe",async (req,res) => {
 });
 
 //router for update recipe details
-router.put("/updateRecipe/:recId",async (req,res) =>{
+router.put("/recipe/update/:recId",async (req,res) =>{
     const recId = req.params.recId;
 
     const{
@@ -64,8 +65,15 @@ router.put("/updateRecipe/:recId",async (req,res) =>{
         recDes
     } = req.body;
 
+    const Payload = {
+        recName,
+        recIng,
+        recDes,
+    }
+    console.log("id123",recId);
+
     if(recId){
-        const response = await Recipe.findOneAndUpdate({recId: recId }).then(() =>{
+        const response = await Recipe.findOneAndUpdate({recId: recId }, Payload).then(() =>{
             return res.status(200).send({
                 status:"Recipe Successfully Updated!!"
             });
@@ -81,10 +89,10 @@ router.put("/updateRecipe/:recId",async (req,res) =>{
 })
 
 //router for delete a recipe
-router.post("/removeRecipe",async (req,res) =>{
-    const recpId = req.body.recId;
-    if(employeeId){
-        const response = await Recipe.findByIdAndDelete({recId = recpId}).then(() =>{
+router.post("/recipe/delete/:recId",async (req,res) =>{
+    const recpId = req.params.recId;
+    if(recpId){
+        const response = await Recipe.findOneAndDelete({recId: recpId}).then(() =>{
             return res.status(200).send({
                 status: "Delete Succesfull"
             });
@@ -99,5 +107,6 @@ router.post("/removeRecipe",async (req,res) =>{
     })
 });
     
+module.exports = router;
 
 
