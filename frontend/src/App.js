@@ -13,7 +13,7 @@ function App() {
       <Routes>
         {/* <Home /> */}
         <Route path="/" element={<Home />}></Route>
-        <Route path="/ViewRecipe" element={<View/>}></Route>
+        {/* <Route path="/ViewRecipe/:name/:ing/:des" element={<View/>}></Route> */}
       </Routes>
     </Router>
   );

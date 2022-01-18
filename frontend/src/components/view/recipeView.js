@@ -17,6 +17,8 @@ const [recipe, setRecipe] = useState([]);
 const [addRecipeModal, setRecipeModal] = useState(false);
 const [updateRecipeModal, setUpdateRecipeModal] = useState(false);
 const [updateData, setUpdateData] = useState();
+const [Data, setData] = useState();
+
 
 
   //creting a method for retrieve data
@@ -97,10 +99,14 @@ const addRecipe = () =>{
             {
                 
                 icon: () => (
-                    <Link to ="/ViewRecipe">
+                    // <Link to ={{pathname:"/ViewRecipe", query:Data}}>
+                    // <Link to ={`/ViewRecipe/${Data.recName}/${Data.recIng}/${Data.recDes}`}>
                     <button className="btn btn-sm btn-success">View</button>
-                    </Link>
+                    // </Link>
                 ),
+                onClick: (event, rowData) => {
+                    setData(rowData);
+                },
                 },
             {
                 
