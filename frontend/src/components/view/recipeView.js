@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import { Modal } from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 import { getAllRecipe,deleteRecipe } from "../service/recipeService";
 
 import AddRecipe from "../modals/addRecipeModal";
 import UpdateRecipe from "../modals/updateRecipeModal";
+import Header from "../Header";
 
 
 export default function RecipeView() {
 
 
 const [recipe, setRecipe] = useState([]);
-
 const [addRecipeModal, setRecipeModal] = useState(false);
 const [updateRecipeModal, setUpdateRecipeModal] = useState(false);
 const [updateData, setUpdateData] = useState();
@@ -48,6 +49,7 @@ function onDelete(data) {
 }
 };
 
+//creating function for add a recipe
 const addRecipe = () =>{
     setRecipeModal(true);
 }
@@ -57,26 +59,28 @@ const addRecipe = () =>{
     return (
     /* side navigtaion bar components*/
     <div className="container" id="height">
-        <div>
-        <div className="area"></div>
-        
-        </div>
-
 
         {/* implementing the meterial table for display data */}
 
         <div className="BillPaymentTable">
-        <button className="btn btn-success" style={{ marginBottom: "20px" }} onClick={() => addRecipe()}>
-        <a
-            href="#"
-            style={{ textDecoration: "none", color: "white" }}
-        >
-            {" "}
-            Add Bill details
-        </a>
-        </button>
+        <div style={{ textAlign: "right"}}>
+            <button className="btn btn-success" style={{ margin: "10px"}} onClick={() => addRecipe()}>
+                Add a Recipe
+            </button>
+        </div>
         <MaterialTable style={{background:"#E3ECFF"}}
         title="Recipe"
+        actions={[
+            {
+            icon: () => (
+                <button className="btn btn-sm btn-warning">Edit</button>
+            ),
+            onClick: (event, rowData) => {
+                setUpdateRecipeModal(true);
+                setUpdateData(rowData);
+            },
+            },
+        ]}
         columns={[
             { title: "Recipe Name", field: "recName", type: "string" },
             { title: "Ingredients", field: "recIng", type: "string" },
@@ -90,12 +94,16 @@ const addRecipe = () =>{
             exportButton: true,
         }}
         actions={[
-            // {onClick: (event, rowData) => {
-            //     console.log("hgjsdhv");
-
-            // }
-            // },
             {
+                
+                icon: () => (
+                    <Link to ="/ViewRecipe">
+                    <button className="btn btn-sm btn-success">View</button>
+                    </Link>
+                ),
+                },
+            {
+                
             icon: () => (
                 <button className="btn btn-sm btn-warning">Edit</button>
             ),

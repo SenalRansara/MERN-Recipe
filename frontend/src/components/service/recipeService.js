@@ -2,6 +2,9 @@ import axios from "axios";
 
 const HOST = "http://localhost:8000/api";
 
+
+//calling the backend of API Methods as services
+
 export const createRecipe = async (Payload) => {
     try {
     await axios.post(`${HOST}/recipe/save`, Payload);
@@ -14,7 +17,7 @@ export const createRecipe = async (Payload) => {
     };
     }
 };
-
+//calling read operation
 export const getAllRecipe= async () => {
     try {
     const response = await axios.get(`${HOST}/recipe/get`);
@@ -29,7 +32,7 @@ export const getAllRecipe= async () => {
     };
     }
 };
-
+//calling update operation
 export const updateRecipe= async (recId,Payload) => {
     try {
     await axios.put(`${HOST}/recipe/update/${recId}`,Payload);
@@ -42,7 +45,7 @@ export const updateRecipe= async (recId,Payload) => {
     };
     }
 };
-
+//calling delete operation
 export const deleteRecipe= async (recId) => {
     try {
         await axios.post(`${HOST}/recipe/delete/${recId}`);
