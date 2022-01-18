@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 function ViewRecipe({match, Data}) {
     let{name,ing,des} = useParams();
 
-    console.log("dataaaaa", {name, ing, des});
-    console.log("awa",Data);
+    //console.log("dataaaaa", {name, ing, des});
+    //console.log("awa",Data);
     return (
         <div>
-            <h1>senal</h1>
+            <h1>Recipe</h1>
         </div>
     )
 }

@@ -21,7 +21,7 @@ export const createRecipe = async (Payload) => {
 export const getAllRecipe= async () => {
     try {
     const response = await axios.get(`${HOST}/recipe/get`);
-    console.log("awaaa",response);
+    //console.log("awaaa",response);
     return {
         ok: true,
         data: response.data.data
