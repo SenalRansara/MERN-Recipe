@@ -1,6 +1,7 @@
 # Getting Started with Create React App
 
 this project is a simple crud application to practice with react along with MERN
+this app is all about recipes adding and removing updating operations.cls
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
